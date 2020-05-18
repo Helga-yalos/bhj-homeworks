@@ -1,17 +1,23 @@
 'use strict';
-const classActive = document.getElementById('modal_main');
-classActive.className = 'modal modal_active';
-const modalClose = document.getElementsByClassName('modal__close');
-modalClose[0].onclick = () => {
-	classActive.className = 'modal';
-}
-const showSuccess = document.getElementsByClassName('show-success');
+
+const modalMain = document.getElementById('modal_main');
+const modalClose = Array.from(document.getElementsByClassName('modal__close'));
+const showSuccess = document.querySelector('a.show-success');
 const modalSuccess = document.getElementById('modal_success');
-showSuccess[0].onclick = () => {
-	classActive.className = 'modal';
-	modalSuccess.className = 'modal modal_active';
-}
-modalClose[2].onclick = () => {
-	modalSuccess.className = 'modal';
+modalMain.classList.add('modal_active');
+const modalCloseTimes = modalClose.filter((modal) => {return (modal.classList.contains('modal__close_times'))});
+
+for (let i = 0; i < modalCloseTimes.length; i ++) {
+	modalCloseTimes[i].onclick = () => {
+		closed(modalCloseTimes[i]);
+	}
 }
 
+showSuccess.onclick = () => {
+	closed(showSuccess);
+	modalSuccess.classList.add('modal_active'); 
+}
+
+function closed(modal) {
+	modal.closest('div.modal').classList.remove('modal_active');
+}

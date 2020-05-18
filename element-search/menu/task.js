@@ -1,17 +1,32 @@
 'use strict';
 const menuLink = Array.from(document.getElementsByClassName('menu__link'));
-const menuSub = document.querySelectorAll('ul.menu.menu_sub');
-for (let i = 0; i < menuLink.length; i++) {
-	menuLink[i].onclick = () => {
-		if (menuSub[0].closest('li') === menuLink[i].closest('li')) {
-			menuSub[0].className = 'menu menu_sub menu_active';
-			menuSub[1].className = 'menu menu_sub';
-			return false;
+const menuSub = Array.from(document.querySelectorAll('ul.menu.menu_sub'));
+const menu = menuLink.filter(isList);
+
+function isList(link) {
+	for (let i = 0; i < menuSub.length; i++) {
+		if (menuSub[i].closest('li') === link.closest('li')){
+			return true;
 		}
-		if (menuSub[1].closest('li') === menuLink[i].closest('li')) {
-			menuSub[1].className = 'menu menu_sub menu_active';
-			menuSub[0].className = 'menu menu_sub';
-			return false;
+	}
+	return false;
+}
+
+function clearMenuSub(i){
+	for (let j = 0; j < menuSub.length; j++) {
+		if (menuSub[j].classList.contains('menu_active') && (i !== j)){
+		menuSub[j].classList.remove('menu_active');
 		}
 	}
 }
+
+for (let i = 0; i < menu.length; i++) {
+	menu[i].onclick = () => {
+		menuSub[i].classList.toggle('menu_active');
+		clearMenuSub(i);
+		return false;
+	}
+}
+
+
+
