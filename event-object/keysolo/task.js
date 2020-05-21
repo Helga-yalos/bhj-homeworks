@@ -4,7 +4,7 @@ class Game {
     this.wordElement = container.querySelector('.word');
     this.winsElement = container.querySelector('.status__wins');
     this.lossElement = container.querySelector('.status__loss');
-
+    //this.currentSymbol = Array.from(container.querySelectorAll('.symbol'));
     this.reset();
 
     this.registerEvents();
@@ -17,6 +17,15 @@ class Game {
   }
 
   registerEvents() {
+      this.currentSymbol = this.wordElement.querySelector('.symbol_current');
+      document.addEventListener('keypress', (event) => {
+        this.symbolKeyboard = String.fromCharCode(event.keyCode);
+      if(this.currentSymbol.textContent == this.symbolKeyboard.toLowerCase()){
+        this.success();
+      } else {
+        this.fail();
+      }
+    })
     /*
       TODO:
       Написать обработчик события, который откликается
@@ -86,5 +95,7 @@ class Game {
   }
 }
 
-new Game(document.getElementById('game'))
+new Game(document.getElementById('game'));
+
+
 
